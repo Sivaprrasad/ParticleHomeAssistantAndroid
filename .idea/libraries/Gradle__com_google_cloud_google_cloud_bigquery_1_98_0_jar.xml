@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.cloud:google-cloud-bigquery:1.98.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-bigquery/1.98.0/9c108e9024c70ac05110d739d3a14890e5743367/google-cloud-bigquery-1.98.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-bigquery/1.98.0/15b5d55b102a6a35953aa7c836389debb0b63cc6/google-cloud-bigquery-1.98.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

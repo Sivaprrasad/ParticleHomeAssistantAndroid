@@ -1,11 +1,18 @@
 package com.example.androidparticlestarter;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import com.google.cloud.speech.v1.SpeechClient;
+import com.google.cloud.speech.v1.RecognitionAudio;
+import com.google.cloud.speech.v1.RecognitionConfig;
+import com.google.cloud.speech.v1.RecognitionConfig.AudioEncoding;
+import com.google.cloud.speech.v1.RecognizeResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +24,13 @@ import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.cloud.exceptions.ParticleCloudException;
 import io.particle.android.sdk.utils.Async;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+
+    Button buttonOn;
+    Button buttonOff;
+
+    private int RESULT;
+    TextToSpeech textToSpeech;
     // MARK: Debug info
     private final String TAG="SMARTLIGHT";
 
@@ -44,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
 
         // 2. Setup your device variable
         getDeviceFromCloud();
+
+        textToSpeech = new TextToSpeech(this, this);
+        buttonOn = findViewById(R.id.button);
+        buttonOff = findViewById(R.id.button2);
+
+        buttonOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RESULT = performClicks();
+                buttonOn.setText(String.valueOf(RESULT));
+                textToSpeech.speak(String.valueOf(RESULT), TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
 
     }
 
@@ -172,4 +199,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onInit(int status) {
+
+    }
 }
