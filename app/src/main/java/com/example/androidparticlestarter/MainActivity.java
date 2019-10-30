@@ -24,13 +24,12 @@ import io.particle.android.sdk.utils.Async;
 public class MainActivity extends AppCompatActivity {
     private TextView Result;
 
-    String comp ;
     // MARK: Debug info
     private final String TAG="SMARTLIGHT";
 
     // MARK: Particle Account Info
     private final String PARTICLE_USERNAME = "usivaprasad95@gmail.com";
-    private final String PARTICLE_PASSWORD = "Sivaprasad@@95";
+    private final String PARTICLE_PASSWORD = "Sivaprasad@95";
 
     // MARK: Particle device-specific info
     private final String DEVICE_ID = "300023001047363333343437";
@@ -62,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, 1);
+
+            startActivityForResult(intent, 10);
         }
         else {
             Toast.makeText(this, "Does not support", Toast.LENGTH_SHORT).show();
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Custom function to connect to the Particle Cloud and get the device
      */
+
     public void getDeviceFromCloud() {
         // This function runs in the background
         // It tries to connect to the Particle Cloud and get your device
@@ -111,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Availble functions: " + mDevice.getFunctions());
 
                 switch (requestCode) {
-                    case 1:
-
+                    case 10:
                         if (resultCode == RESULT_OK && data != null) {
                             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                             try{
@@ -123,28 +123,57 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "Did not used API");
                             }
 
-                            if ((Result.getText().toString().equals("on"))
-                                    || (Result.getText().toString().equals("turn lights on"))
-                                    || (Result.getText().toString().equals("lights on"))
-                                    || (Result.getText().toString().equals("turn leds on"))) {
+                            if (Result.getText().toString().equals("on")) {
                                 try{
-                                    mDevice.callFunction("lightsOn", result);
+                                    mDevice.callFunction("turnLightsOn", result);
                                 }
                                 catch (ParticleDevice.FunctionDoesNotExistException e1) {
                                     e1.printStackTrace();
                                 }
                             }
-                            else  if ((Result.getText().toString().equals("off"))
-                                    || (Result.getText().toString().equals("turn lights off"))
-                                    || (Result.getText().toString().equals("lights off"))
-                                    || (Result.getText().toString().equals("turn leds off"))) {
+
+                            else if(Result.getText().toString().equals("lights on")){
+                                try{
+                                    mDevice.callFunction("turnLightsOn", result);
+                                }
+                                catch (ParticleDevice.FunctionDoesNotExistException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
+//                            else if(Result.getText().toString().equals("turn lights on")){
+//                                try{
+//                                    mDevice.callFunction("turnLightsOn", result);
+//                                }
+//                                catch (ParticleDevice.FunctionDoesNotExistException e1) {
+//                                    e1.printStackTrace();
+//                                }
+//                            }
+
+                            else  if (Result.getText().toString().equals("off")){
                                 try {
-                                    mDevice.callFunction("lightsOff", result);
+                                    mDevice.callFunction("turnLightsOff", result);
                                 }
                                 catch (ParticleDevice.FunctionDoesNotExistException e1) {
                                     e1.printStackTrace();
                                 }
                             }
+                            else  if (Result.getText().toString().equals("lights off")){
+                                try {
+                                    mDevice.callFunction("turnLightsOff", result);
+                                }
+                                catch (ParticleDevice.FunctionDoesNotExistException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+//                            else  if (Result.getText().toString().equals("turn the lights off")){
+//                                try {
+//                                    mDevice.callFunction("turnLightsOff", result);
+//                                }
+//                                catch (ParticleDevice.FunctionDoesNotExistException e1) {
+//                                    e1.printStackTrace();
+//                                }
+//                            }
                         }
                         break;
                 }
